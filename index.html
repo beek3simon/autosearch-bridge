@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>코레일+ 앱 실행 브릿지</title>
+  <title>코레일+ 앱 바로 실행</title>
   <style>
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
@@ -16,99 +18,98 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      margin: 0;
-      background: #f8fafc;
-      color: #0f172a;
-      padding: 16px;
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 20px;
     }
     .card {
-      background: #ffffff;
+      background: #1e293b;
       padding: 32px 24px;
-      border-radius: 24px;
-      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.05);
+      border-radius: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
       max-width: 400px;
       width: 100%;
       text-align: center;
+      border: 1px solid #334155;
+    }
+    .icon {
+      font-size: 54px;
+      margin-bottom: 16px;
     }
     .badge {
       display: inline-block;
-      padding: 6px 12px;
-      background: #eff6ff;
-      color: #1d4ed8;
+      padding: 6px 14px;
+      background: #0284c7;
+      color: #ffffff;
       border-radius: 9999px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 16px;
-    }
-    .icon {
-      font-size: 52px;
-      margin-bottom: 12px;
+      letter-spacing: 0.5px;
     }
     h2 {
-      margin: 0 0 8px;
-      font-size: 23px;
+      margin: 0 0 10px;
+      font-size: 24px;
       font-weight: 800;
-      color: #0f172a;
+      color: #ffffff;
     }
     p.desc {
-      margin: 0 0 24px;
-      font-size: 14px;
-      color: #64748b;
+      margin: 0 0 28px;
+      font-size: 15px;
+      color: #94a3b8;
       line-height: 1.6;
     }
-    .btn {
+    .btn-main {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 16px 20px;
-      margin-bottom: 12px;
-      background: #0054a6;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      background: #2563eb;
       color: #ffffff;
       text-decoration: none;
-      border-radius: 14px;
-      font-weight: 700;
-      font-size: 16px;
-      box-shadow: 0 4px 14px rgba(0,84,166,0.3);
-      transition: transform 0.15s, background-color 0.15s;
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 6px 20px rgba(37,99,235,0.4);
       cursor: pointer;
       border: none;
+      transition: transform 0.1s, background-color 0.2s;
     }
-    .btn:active {
-      transform: scale(0.98);
-      background: #004080;
+    .btn-main:active {
+      transform: scale(0.97);
+      background: #1d4ed8;
     }
     .btn-green {
       background: #059669;
-      box-shadow: 0 4px 14px rgba(5,150,105,0.25);
+      box-shadow: 0 6px 20px rgba(5,150,105,0.35);
     }
     .btn-green:active {
       background: #047857;
     }
     .btn-sub {
-      background: #f1f5f9;
-      color: #334155;
+      display: block;
+      width: 100%;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      background: #334155;
+      color: #cbd5e1;
+      text-decoration: none;
+      border-radius: 14px;
       font-size: 14px;
       font-weight: 600;
-      padding: 13px 18px;
-      box-shadow: none;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #475569;
+      cursor: pointer;
     }
     .btn-sub:active {
-      background: #e2e8f0;
+      background: #475569;
     }
     .notice {
-      margin-top: 18px;
-      font-size: 12px;
-      color: #94a3b8;
-      line-height: 1.5;
-    }
-    .status-badge {
+      margin-top: 20px;
       font-size: 13px;
-      color: #059669;
-      font-weight: 600;
-      margin-bottom: 16px;
-      display: block;
+      color: #64748b;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -116,98 +117,55 @@
   <div class="card">
     <div class="icon">🚆</div>
     <div class="badge">코레일·SRT 통합 승차권</div>
-    <h2 id="titleText">코레일+ 앱 실행</h2>
-    <p class="desc" id="descText">스마트폰에 설치된 <strong>코레일+</strong> 앱을 실행하여<br>예약 및 결제를 진행하세요.</p>
-    
-    <div id="statusBadge" class="status-badge">⚡ 앱 실행 신호 전송 완료</div>
+    <h2 id="titleText">코레일+ 앱 바로 열기</h2>
+    <p class="desc" id="descText">
+      아래 파란색 버튼을 누르면 스마트폰에 설치된<br>
+      <strong>코레일+</strong> 앱이 스토어 없이 즉시 실행됩니다.
+    </p>
 
-    <!-- 1. 메인 코레일+ 커스텀 스킴 (iOS/Android 공통 최우선) -->
-    <a id="btnPrimary" class="btn" href="korailplus://">
-      📱 코레일+ 앱 열기 (기본)
+    <!-- 1. 기본 원클릭 앱 실행 (korailtalk:// 및 안드로이드 인텐트 direct click) -->
+    <a id="btnPrimary" class="btn-main" href="javascript:void(0);" onclick="openKorailApp();">
+      📱 코레일+ 앱 즉시 열기
     </a>
 
-    <!-- 2. 안드로이드 전용 다이렉트 인텐트 런처 -->
-    <a id="btnAndroidLauncher" class="btn btn-green" href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.korail.talk;end;">
-      🤖 안드로이드 앱 직접 실행
+    <!-- 2. 안드로이드 전용 인텐트 버튼 -->
+    <a id="btnAndroid" class="btn-main btn-green" href="intent://#Intent;package=com.korail.talk;scheme=korailtalk;end;">
+      🤖 안드로이드 전용 실행
     </a>
 
-    <!-- 3. 코레일톡 구형 스킴 호환 -->
-    <a id="btnKorailTalk" class="btn btn-sub" href="korailtalk://">
-      🔄 코레일톡 스킴으로 열기
+    <!-- 3. korailplus 스킴 -->
+    <a id="btnPlus" class="btn-sub" href="korailplus://">
+      🔄 korailplus:// 스킴으로 열기
     </a>
 
-    <!-- 4. glorykorail 호환 -->
-    <a id="btnGlory" class="btn btn-sub" href="glorykorail://">
-      🔄 glorykorail 호환 모드로 열기
-    </a>
-
-    <!-- 5. 모바일 웹 바로가기 -->
-    <a id="btnWeb" class="btn btn-sub" href="https://www.korail.com/ticket/search/general">
+    <!-- 4. 모바일 웹 바로가기 -->
+    <a id="btnWeb" class="btn-sub" href="https://www.korail.com/ticket/search/general">
       🌐 코레일 공식 모바일 웹
     </a>
 
     <div class="notice">
-      💡 앱이 자동으로 실행되지 않는 경우, 초록색 <strong>[안드로이드 직접 실행]</strong> 또는 <strong>[코레일+ 앱 열기]</strong> 버튼을 직접 터치해 주세요.
+      💡 구글 플레이 화면으로 넘어가지 않고, 스마트폰 앱이 즉시 실행되도록 최적화되었습니다.
     </div>
   </div>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const app = (urlParams.get('app') || 'korail').toLowerCase();
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    const btnPrimary = document.getElementById('btnPrimary');
-    const btnAndroidLauncher = document.getElementById('btnAndroidLauncher');
-    const btnKorailTalk = document.getElementById('btnKorailTalk');
-    const btnGlory = document.getElementById('btnGlory');
-    const btnWeb = document.getElementById('btnWeb');
-    const titleText = document.getElementById('titleText');
-    const descText = document.getElementById('descText');
-
-    if (app === 'sichuan') {
-      titleText.innerText = '사천항공 모바일 예매';
-      descText.innerHTML = '사천항공 공식 예매 페이지로<br>연결됩니다.';
-      btnPrimary.innerText = '✈️ 사천항공 모바일 웹 열기';
-      btnPrimary.href = 'https://global.sichuanair.com/m/';
-      btnAndroidLauncher.style.display = 'none';
-      btnKorailTalk.style.display = 'none';
-      btnGlory.style.display = 'none';
-      btnWeb.href = 'https://global.sichuanair.com/m/';
-      btnWeb.innerText = '🌐 공식 글로벌 웹';
-    } else if (app === 'naver') {
-      titleText.innerText = '네이버 항공권 예매';
-      descText.innerHTML = '네이버 항공권 검색 화면으로<br>이동합니다.';
-      btnPrimary.innerText = '✈️ 네이버 항공 바로가기';
-      btnPrimary.href = 'https://m.flight.naver.com';
-      btnAndroidLauncher.style.display = 'none';
-      btnKorailTalk.style.display = 'none';
-      btnGlory.style.display = 'none';
-      btnWeb.href = 'https://m.flight.naver.com';
-    } else {
-      // 코레일+ / SRT 통합 모드
+    function openKorailApp() {
       if (isAndroid) {
-        btnPrimary.href = "intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.korail.talk;end;";
-        btnAndroidLauncher.href = "korailplus://";
-        btnAndroidLauncher.innerText = "📱 코레일+ 스킴으로 열기 (korailplus://)";
+        // 안드로이드: intent 스킴을 직접 호출하여 앱 즉각 실행
+        window.location.href = "intent://#Intent;package=com.korail.talk;scheme=korailtalk;end;";
       } else if (isIOS) {
-        btnPrimary.href = "korailplus://";
-        btnAndroidLauncher.style.display = 'none';
+        // iOS: korailplus:// 또는 korailtalk://
+        window.location.href = "korailtalk://";
+        setTimeout(function() {
+          window.location.href = "korailplus://";
+        }, 300);
+      } else {
+        window.location.href = "korailtalk://";
       }
     }
-
-    // 자동 실행 시도 (브라우저 정책상 차단될 수 있으므로 에러 없이 시도)
-    window.addEventListener('DOMContentLoaded', function() {
-      setTimeout(function() {
-        if (app === 'korail' || app === 'srt') {
-          if (isAndroid) {
-            window.location.href = "intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.korail.talk;end;";
-          } else if (isIOS) {
-            window.location.href = "korailplus://";
-          }
-        }
-      }, 300);
-    });
   </script>
 </body>
 </html>
