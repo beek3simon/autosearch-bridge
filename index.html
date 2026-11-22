@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>앱으로 이동 중...</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      margin: 0;
+      background: #f7f9fa;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      max-width: 380px;
+      width: 100%;
+    }
+    .btn {
+      display: block;
+      margin-top: 20px;
+      padding: 14px 20px;
+      background: #0054a6;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .btn-srt { background: #5c1e5d; }
+    .btn-naver { background: #03c75a; }
+    .btn-secondary {
+      background: #e9ecef;
+      color: #495057;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2 id="title">앱 실행 중...</h2>
+    <p id="desc">잠시 후 스마트폰 앱이 자동으로 열립니다.<br>열리지 않으면 아래 버튼을 눌러주세요.</p>
+    <a id="appBtn" class="btn" href="#">앱으로 열기</a>
+    <a id="webBtn" class="btn btn-secondary" href="#">모바일 웹으로 열기</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const target = params.get('app') || 'korail';
+
+    const SCHEMES = {
+      korail: {
+        name: '코레일톡',
+        appUrl: 'korailtalk://',
+        webUrl: 'https://www.korail.com/ticket/search/general',
+        btnClass: 'btn'
+      },
+      srt: {
+        name: 'SRT',
+        appUrl: 'srt://',
+        webUrl: 'https://etk.srail.kr/hpg/hra/01/selectScheduleList.do?pageId=TK0101010000',
+        btnClass: 'btn btn-srt'
+      },
+      naver: {
+        name: '네이버 항공권',
+        appUrl: 'naversearchapp://default?version=1&url=https%3A%2F%2Fflight.naver.com',
+        webUrl: 'https://flight.naver.com',
+        btnClass: 'btn btn-naver'
+      },
+      sichuan: {
+        name: '사천항공',
+        appUrl: 'https://global.sichuanair.com/m/',
+        webUrl: 'https://www.sichuanair.com',
+        btnClass: 'btn'
+      }
+    };
+
+    const info = SCHEMES[target] || SCHEMES.korail;
+    document.getElementById('title').innerText = `${info.name} 앱 실행 중...`;
+    const appBtn = document.getElementById('appBtn');
+    appBtn.innerText = `📱 ${info.name} 앱 바로 열기`;
+    appBtn.href = info.appUrl;
+    appBtn.className = info.btnClass;
+
+    const webBtn = document.getElementById('webBtn');
+    webBtn.innerText = `🌐 ${info.name} 모바일 웹으로 이동`;
+    webBtn.href = info.webUrl;
+
+    // Auto-trigger app launch
+    setTimeout(() => {
+      window.location.href = info.appUrl;
+    }, 150);
+  </script>
+</body>
+</html>
